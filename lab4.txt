@@ -1,0 +1,125 @@
+xml code
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="386dp"
+        android:layout_height="83dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="480dp"
+        android:text="WALLPAPER CHANGING APPLICATION"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="187dp"
+        tools:layout_editor_absoluteY="158dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="45dp"
+        android:layout_marginBottom="279dp"
+        android:text="CLICK HERE TO CHANGE WALLPAPER!"
+        android:onClick="changeWalpaper"/>
+</RelativeLayout>
+
+
+
+
+java code
+
+
+
+package com.example.lab4;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.WallpaperManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.view.View;
+
+import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class MainActivity extends AppCompatActivity {
+    Timer myTimer;
+    Drawable drawable;
+    WallpaperManager wallpaper;
+    int nextImage=1;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        myTimer= new Timer();
+        wallpaper=WallpaperManager.getInstance(this);
+    }
+
+    public void changeWalpaper(View view) {
+
+        setWallpaper();
+    }
+
+    private void setWallpaper() {
+
+        myTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if(nextImage==1){
+                    drawable=getResources().getDrawable(R.drawable.one);
+                    nextImage=2;
+                }
+                else if(nextImage==2){
+                    drawable=getResources().getDrawable(R.drawable.two);
+                    nextImage=3;
+                }
+                else if(nextImage==3){
+                    drawable=getResources().getDrawable(R.drawable.three);
+                    nextImage=4;
+                }
+                else if(nextImage==4){
+                    drawable=getResources().getDrawable(R.drawable.four);
+                    nextImage=5;
+                }
+                else if(nextImage==5){
+                    drawable=getResources().getDrawable(R.drawable.five);
+                    nextImage=6;
+                }
+                else if(nextImage==6){
+                    drawable=getResources().getDrawable(R.drawable.six);
+                    nextImage=7;
+                }
+                else if(nextImage==7){
+                    drawable=getResources().getDrawable(R.drawable.seven);
+                    nextImage=1;
+                }
+
+                Bitmap imageMap=((BitmapDrawable)drawable).getBitmap();
+
+                try {
+                    wallpaper.setBitmap(imageMap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        },30000,5000);
+    }
+}
